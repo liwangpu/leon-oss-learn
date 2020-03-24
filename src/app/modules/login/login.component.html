@@ -1,0 +1,23 @@
+<div class="page">
+    <img class="logo" src="assets/images/cloud-t.svg">
+    <form [formGroup]="loginForm">
+        <div class="form-container">
+            <label for="username">用户名</label>
+            <input type="text" class="input-ct" id="username" name="username" autocomplete="username email"
+                formControlName="username">
+            <label for="password">密码</label>
+            <input type="password" class="input-ct" id="password" name="password" formControlName="password"
+                autocomplete="new-password">
+            <button class="login-btn-ct" [disabled]='loginForm.disabled' (click)='login()'>登录</button>
+            <p class="err-tip">
+                <ng-container *ngIf='loginFailure'>{{loginFailureMessage}}</ng-container>
+            </p>
+            <div class="pwd-op-container">
+                <div class="keep-alive">
+                    <input type="checkbox" id="keep-alive-ct" formControlName="keepAlive">
+                    <label for="keep-alive-ct">十天内免登录</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
