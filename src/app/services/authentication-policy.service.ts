@@ -15,7 +15,8 @@ export class AuthenticationPolicyService implements IAuthenticationPolicy {
 
     public authenticate(): Promise<boolean> {
         let hasToken = this.localStorageSrv.getItem('token');
-        return Promise.resolve(hasToken ? true : false);
+        // return Promise.resolve(hasToken ? true : false);
+        return Promise.resolve(true);
     }
 
     public unAuthenticatedRoutingHop(): void {

@@ -1,0 +1,29 @@
+<div class="toolbar">
+    <div class="launcher">
+        <mat-icon class="nav gap-r" (click)='openLauncher()'>menu</mat-icon>
+        <span class="corporation">Tutorial</span>
+    </div>
+    <div class="fill"></div>
+
+    <div class="bar">
+        <mat-icon class="nav gap-r" routerLink="/app">home</mat-icon>
+
+        <mat-icon class="nav gap-r">star</mat-icon>
+
+        <p class="profile" [matMenuTriggerFor]="profileMenu">
+            <span>{{accountName}}</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+        </p>
+
+        <mat-menu #profileMenu="matMenu">
+            <button mat-menu-item routerLink="ids/profile-setting">
+                <mat-icon>settings</mat-icon>
+                <span>{{"navigation.personalSetting"|translate}}</span>
+            </button>
+            <button mat-menu-item (click)='logout()'>
+                <mat-icon>exit_to_app</mat-icon>
+                <span>{{"button.logout"|translate}}</span>
+            </button>
+        </mat-menu>
+    </div>
+</div>

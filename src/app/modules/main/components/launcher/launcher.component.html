@@ -1,0 +1,26 @@
+<div class="launcher">
+    <div class="header">
+        <p class="title">{{"glossary.appLauncher"|translate}}</p>
+        <button mat-icon-button (click)='dialogRef.close()'>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="content">
+        <div class="mend">
+            <div class="navbar" (click)='toggleLatestNavVisible()'>
+                <mat-icon>{{_latestNavVisible?'expand_more':'chevron_right'}}</mat-icon>
+                <span>{{"glossary.recentApps"|translate}}</span>
+            </div>
+            <div class="navs" [class.hidden]='!_latestNavVisible'>
+                <p class="nit" *ngFor='let it of _latestNavs' (click)='gotoRoute(it)'>{{it.name|translate}}</p>
+            </div>
+            <div class="navbar" (click)='toggleAllNavVisible()'>
+                <mat-icon>{{_allNavVisible?'expand_more':'chevron_right'}}</mat-icon>
+                <span>{{"glossary.allApps"|translate}}</span>
+            </div>
+            <div class="navs" [class.hidden]='!_allNavVisible'>
+                <p class="nit" *ngFor='let it of _allNavs' (click)='gotoRoute(it)'>{{it.name|translate}}</p>
+            </div>
+        </div>
+    </div>
+</div>

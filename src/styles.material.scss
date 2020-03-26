@@ -1,0 +1,57 @@
+// button
+.mat-button {
+    &.normal {
+        padding: 0 4px;
+    }
+}
+
+//dialog
+.mat-dialog-container {
+    padding: 0 !important;
+}
+
+.mat-tab-group.maximum {
+    width: 100%;
+    height: 100%;
+
+    .mat-tab-body-wrapper {
+        flex: 1 1 0;
+    }
+}
+
+//drawer
+.list-viewer-drawer {
+    width: 100%;
+    height: 100%;
+    background-color: #f3f2f2;
+
+    .list-viewer-sidenav {
+        border-top: 1px solid #d0d0d0;
+        background-color: #f3f2f2;
+
+        div.list-left-part-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    div.list-viewer-sidenav-content {
+        overflow: hidden;
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 100%;
+
+        div.list {
+            flex: 1 1 0;
+            overflow: auto;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    div.cdk-overlay-pane {
+        max-width: 100vw !important;
+        height: 100vh !important;
+    }
+}
