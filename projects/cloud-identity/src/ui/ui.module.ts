@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { UiRoutingModule } from './ui-routing.module';
 import { ProfileSettingComponent } from './components/profile-setting/profile-setting.component';
 import { OrganizationListComponent } from './components/organization-list/organization-list.component';
+import { SharedModule } from 'cloud-shared';
 
 @NgModule({
     declarations: [ProfileSettingComponent, OrganizationListComponent],
     imports: [
         CommonModule,
-        UiRoutingModule
+        UiRoutingModule,
+        SharedModule
     ]
 })
 export class UiModule { }

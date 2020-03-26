@@ -19,8 +19,8 @@
             "dom"
         ],
         "paths": {
-            "@internal/modules": [
-                "src/app/lazy-loaders"
+            "@env/*": [
+                "src/environments/*"
             ],
             "cloud-identity": [
                 "projects/cloud-identity/src"
@@ -33,7 +33,10 @@
             ],
             "cloud-shared": [
                 "projects/cloud-shared/src"
-            ]
+            ],
+            "cloud-grid": [
+                "projects/cloud-grid/src/public-api.ts"
+            ],
         }
     },
     "angularCompilerOptions": {

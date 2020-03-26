@@ -4,3 +4,4 @@ export * from './inject-tokens/authentication-policy';
 export * from './inject-tokens/authorization-policy';
 // models
 export * from './models/i-app-nav';
+export * from './models/i-query-result';

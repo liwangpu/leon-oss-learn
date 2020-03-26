@@ -54,7 +54,8 @@
                         "styles": [
                             "src/styles.scss",
                             "src/styles.material.theme.scss",
-                            "src/styles.material.scss"
+                            "src/styles.material.scss",
+                            "src/styles.shared.scss"
                         ],
                         "scripts": []
                     },
@@ -377,6 +378,64 @@
                         "tsConfig": [
                             "projects/cloud-shared/tsconfig.lib.json",
                             "projects/cloud-shared/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
+                    }
+                }
+            }
+        },
+        "cloud-grid": {
+            "projectType": "library",
+            "root": "projects/cloud-grid",
+            "sourceRoot": "projects/cloud-grid/src",
+            "prefix": "cloud-grid",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss",
+                    "skipTests": true
+                },
+                "@schematics/angular:class": {
+                    "skipTests": true
+                },
+                "@schematics/angular:directive": {
+                    "skipTests": true
+                },
+                "@schematics/angular:guard": {
+                    "skipTests": true
+                },
+                "@schematics/angular:module": {
+                    "skipTests": true
+                },
+                "@schematics/angular:pipe": {
+                    "skipTests": true
+                },
+                "@schematics/angular:service": {
+                    "skipTests": true
+                }
+            },
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-ng-packagr:build",
+                    "options": {
+                        "tsConfig": "projects/cloud-grid/tsconfig.lib.json",
+                        "project": "projects/cloud-grid/ng-package.json"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/cloud-grid/src/test.ts",
+                        "tsConfig": "projects/cloud-grid/tsconfig.spec.json",
+                        "karmaConfig": "projects/cloud-grid/karma.conf.js"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "projects/cloud-grid/tsconfig.lib.json"
                         ],
                         "exclude": [
                             "**/node_modules/**"

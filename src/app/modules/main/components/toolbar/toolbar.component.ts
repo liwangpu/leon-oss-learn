@@ -18,7 +18,7 @@ export class ToolbarComponent implements OnInit {
     }
 
     public openLauncher(): void {
-        this.dialogSrv.open(LauncherComponent, { width: '900px', height: '750px' });
+        this.dialogSrv.open(LauncherComponent, { width: '800px', height: '650px' });
     }
 
     public logout(): void {

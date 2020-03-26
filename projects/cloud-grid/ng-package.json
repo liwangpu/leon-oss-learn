@@ -1,0 +1,24 @@
+{
+    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "../../libs/cloud-grid",
+    "lib": {
+        "entryFile": "src/public-api.ts",
+        "umdModuleIds": {
+            "primeng/paginator": "primeng/paginator",
+            "primeng/table": "primeng/table",
+            "primeng/button": "primeng/button",
+            "primeng/splitbutton": "primeng/splitbutton",
+            "primeng/dropdown": "primeng/dropdown",
+            "primeng/dynamicdialog": "primeng/dynamicdialog",
+            "primeng/inputswitch": "primeng/inputswitch",
+            "primeng/inputtext": "primeng/inputtext",
+            "primeng/menu": "primeng/menu",
+            "primeng/panel": "primeng/panel",
+            "primeng/sidebar": "primeng/sidebar",
+            "primeng/slidemenu": "primeng/slidemenu",
+            "primeng/api": "primeng/api",
+            "primeng/overlaypanel": "primeng/overlaypanel",
+            "query-string": "query-string"
+        }
+    }
+}
