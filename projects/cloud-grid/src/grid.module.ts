@@ -32,10 +32,11 @@ import { FilterItemSettingPanelComponent } from './components/filter-item-settin
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalContainerComponent } from './components/modal-container/modal-container.component';
 import { ColumnFilterViewEditPanelComponent } from './components/column-filter-view-edit-panel/column-filter-view-edit-panel.component';
+import { ColumnVisualEditingPanelComponent } from './components/column-visual-editing-panel/column-visual-editing-panel.component';
 
 
 @NgModule({
-    declarations: [SortTableColumnDirective, ResizeTableColumnDirective, ColumResizerHandlerDirective, DynamicStyleWidthDirective, GridComponent, GridHeaderComponent, GridContentComponent, GridFooterComponent, TableComponent, TableHeaderCellComponent, ColumnFilterPanelComponent, FilterItemBoxComponent, FilterItemSettingPanelComponent, ModalContainerComponent, ColumnFilterViewEditPanelComponent],
+    declarations: [SortTableColumnDirective, ResizeTableColumnDirective, ColumResizerHandlerDirective, DynamicStyleWidthDirective, GridComponent, GridHeaderComponent, GridContentComponent, GridFooterComponent, TableComponent, TableHeaderCellComponent, ColumnFilterPanelComponent, FilterItemBoxComponent, FilterItemSettingPanelComponent, ModalContainerComponent, ColumnFilterViewEditPanelComponent, ColumnVisualEditingPanelComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -64,7 +65,8 @@ import { ColumnFilterViewEditPanelComponent } from './components/column-filter-v
     ],
     entryComponents: [
         FilterItemSettingPanelComponent,
-        ColumnFilterViewEditPanelComponent
+        ColumnFilterViewEditPanelComponent,
+        ColumnVisualEditingPanelComponent
     ]
 })
 export class GridModule { }

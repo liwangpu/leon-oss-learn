@@ -1,3 +1,10 @@
-<div class="navbar">
-    <h5>navbar</h5>
-</div>
+<div class="container" [class.hide]='hideNavs'>
+    <div class="navs" [class.min]='minNavs' #recentNavCt>
+      <div class="nav" *ngFor='let nv of latestNavs' [routerLink]='[nv.url]' routerLinkActive="active">
+        <mat-icon class="nv-icon" *ngIf='nv.iconType!=="image"'>{{nv.icon}}</mat-icon>
+        <p class="title">{{nv.name|translate}}</p>
+        <div class="arrow"></div>
+      </div>
+    </div>
+    <div class="folder-bar" (click)='toggleRencentNav()'></div>
+  </div>

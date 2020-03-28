@@ -1,0 +1,136 @@
+div.container {
+    width: 100%;
+    position: relative;
+
+    &.hide {
+        height: 0;
+
+        div.folder-bar {
+            display: none;
+        }
+
+        div.navs {
+            height: 0;
+        }
+    }
+
+    div.navs {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        height: 78px;
+        overflow: hidden;
+        transition: height 100ms;
+
+        &.min {
+            height: 0;
+        }
+
+        div.nav {
+            $nav-size: 50px;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: $nav-size;
+            height: $nav-size;
+            min-width: $nav-size;
+            min-height: $nav-size;
+            background-color: #2682b2;
+            border-radius: 4px;
+            margin: 0 15px;
+            outline: none;
+
+            &.active {
+                div.arrow {
+                    $arrow-size: 18px;
+                    position: absolute;
+                    margin: 0 auto;
+                    left: 0;
+                    right: 0;
+                    bottom: -34px;
+                    width: $arrow-size;
+                    height: $arrow-size;
+                    background: url("/assets/images/common/up-arrow.png") no-repeat;
+                    background-size: 100% 100%;
+                }
+            }
+
+            &:hover {
+                cursor: pointer;
+                $hover-color: orange;
+
+                .nv-icon {
+                    &.mat-icon {
+                        color: $hover-color;
+                    }
+                }
+
+                p.title {
+                    color: $hover-color;
+                }
+            }
+
+            .nv-icon {
+                width: $nav-size;
+                height: $nav-size;
+
+                &.mat-icon {
+                    color: white;
+                    $size: 35px;
+                    width: $size;
+                    height: $size;
+                    font-size: $size;
+                }
+            }
+
+            p.title {
+                position: absolute;
+                width: 78px;
+                color: white;
+                font-size: 0.5rem;
+                font-weight: 300;
+                text-align: center;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                bottom: -1.2rem;
+                margin:0;
+                padding: 0;
+            }
+        }
+    }
+
+    div.folder-bar {
+        $bar-width: 100px;
+        width: $bar-width;
+        height: 5px;
+        border-radius: 2px;
+        background-color: #afafaf;
+        position: absolute;
+        bottom: -0.8rem;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 9;
+        transition: width 300ms;
+
+        &.hide {
+            display: none;
+        }
+
+        &:hover {
+            cursor: pointer;
+            width: 120px;
+            transition: width 300ms;
+        }
+    }
+
+    @media screen and(max-height:700px) {
+        height: 0;
+        display: none;
+    }
+}

@@ -21,8 +21,8 @@
         <button matTooltip="{{'button.filter'|translate}}" (click)='filter()'>
             <mat-icon>filter_list</mat-icon>
         </button>
-        <button matTooltip="{{'button.delete'|translate}}">
-            <mat-icon>delete_forever</mat-icon>
+        <button matTooltip="{{'button.advance'|translate}}" [matMenuTriggerFor]="advanceSettingMenu">
+            <mat-icon>settings</mat-icon>
         </button>
     </div>
 </div>
@@ -31,4 +31,9 @@
     <ng-container *ngFor='let it of filterViews'>
         <button mat-menu-item *ngIf='it.name!==activeFilterViewName' (click)='toggleView(it.id)'>{{it.name}}</button>
     </ng-container>
+</mat-menu>
+
+<mat-menu class="view-toggle-menu" #advanceSettingMenu="matMenu">
+    <button mat-menu-item (click)='columnVisualSetting()'>选择需要显示的列</button>
+    <button mat-menu-item>删除</button>
 </mat-menu>

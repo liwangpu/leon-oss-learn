@@ -7,6 +7,10 @@ import { GridTopicEnum } from '../../enums/grid-topic.enum';
 import { IHistory } from '../../models/i-history';
 import { IFilterView } from '../../models/i-filter-view';
 import { GridAdvanceViewEnum } from '../../enums/grid-advance-view.enum';
+import { MatDialog } from '@angular/material/dialog';
+import { ColumnVisualEditingPanelComponent } from '../column-visual-editing-panel/column-visual-editing-panel.component';
+import { ArrayTool } from '../../utils/array-tool';
+import { ITableColumn } from '../../models/i-table-column';
 
 @Component({
     selector: 'cloud-grid-header',
@@ -22,7 +26,7 @@ export class GridHeaderComponent implements OnInit {
     public filterViews: Array<{ id: string, name: string }>;
     public constructor(
         @Inject(GRIDCONFIG) private gridConfig: IGridConfig,
-        // public dialogService: DialogService,
+        public dialogService: MatDialog,
         private opsat: GridOpsatService,
         private cache: GridDataService
     ) {
@@ -115,4 +119,20 @@ export class GridHeaderComponent implements OnInit {
         this.opsat.publish(GridTopicEnum._HistoryChange, this.cache.history);
     }
 
+    public columnVisualSetting(): void {
+        const ref = this.dialogService.open(ColumnVisualEditingPanelComponent, {
+            width: '600px',
+            height: '400px',
+            data: ArrayTool.deepCopy(this.cache.columns)
+        });
+
+        ref.afterClosed()
+            .pipe(filter(x => x))
+            .subscribe((cols: Array<ITableColumn>) => {
+                const view: IFilterView = this.cache.activeFilterView;
+                view.columns = cols;
+                this.opsat.publish(GridTopicEnum.ColumnVisialSettingChange);
+                this.opsat.publish(GridTopicEnum.FilterViewCreateOrUpdate, view);
+            });
+    }
 }

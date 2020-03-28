@@ -2,7 +2,8 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { RouterRecorderService } from './services/router-recorder.service';
 
 @Component({
     selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent {
     public constructor(
         @Inject(PLATFORM_ID) platformId: string,
         private translateSrv: TranslateService,
-        private router: Router
+        private router: Router,
+        private routerRecorderSrv: RouterRecorderService
     ) {
 
         if (isPlatformBrowser(platformId)) {
@@ -29,6 +31,8 @@ export class AppComponent {
                 // this.cacheSrv.lastLanguage = broswerLang;
             }
         }
+      //记录最近访问的路由信息
+      this.router.events.pipe(filter(evt => evt instanceof NavigationEnd)).pipe(map(evt => evt['url'])).subscribe(url => this.routerRecorderSrv.recordUrl(url));
 
         this.router.events.pipe(filter(evt => evt instanceof NavigationEnd)).subscribe(res => {
             console.info('url info', res);

@@ -1,38 +1,36 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { Observable, of, forkJoin } from 'rxjs';
-import { IQueryResult, UrlTool } from 'cloud-deed';
-import * as faker from 'faker';
-import { OrganizationService } from '../../../ms/services/organization.service';
-import { IOrganization } from 'cloud-identity';
 import { DStore, ITableColumn } from 'cloud-shared';
+import { IdentityService } from '../../../ms/services/identity.service';
+import { Observable, of } from 'rxjs';
+import { IQueryResult } from 'cloud-deed';
 
 @Component({
-    selector: 'cloud-identity-organization-list',
-    templateUrl: './organization-list.component.html',
-    styleUrls: ['./organization-list.component.scss'],
+    selector: 'cloud-identity-identity-list',
+    templateUrl: './identity-list.component.html',
+    styleUrls: ['./identity-list.component.scss'],
     providers: [
         {
             provide: DStore,
-            useExisting: forwardRef(() => OrganizationListComponent)
+            useExisting: forwardRef(() => IdentityListComponent)
         }
     ]
 })
-export class OrganizationListComponent extends DStore implements OnInit {
+export class IdentityListComponent extends DStore implements OnInit {
+
 
     public constructor(
-        private organSrv: OrganizationService
+        private identitySrv: IdentityService
     ) {
         super();
     }
 
     public ngOnInit(): void {
-
     }
 
     public getColumns(): Observable<Array<ITableColumn>> {
         return of([
             {
-                name: '名称',
+                name: '姓名',
                 field: 'name',
                 sort: true
             },
@@ -45,10 +43,6 @@ export class OrganizationListComponent extends DStore implements OnInit {
                 name: '邮件',
                 field: 'email',
                 sort: true
-            },
-            {
-                name: '描述',
-                field: 'description'
             }
         ]);
     }
@@ -73,7 +67,7 @@ export class OrganizationListComponent extends DStore implements OnInit {
             // tslint:disable-next-line: no-dynamic-delete
             delete queryParam['keyword'];
         }
-        return this.organSrv.query(queryParam);
+        return this.identitySrv.query(queryParam);
     }
 
     public onDataEdit(data: any): void {
@@ -87,20 +81,4 @@ export class OrganizationListComponent extends DStore implements OnInit {
     public onDataSelected(datas: Array<any>): void {
         throw new Error('Method not implemented.');
     }
-
-    public addFackerData(): void {
-        let organs: Array<IOrganization> = [];
-        for (let i = 0; i < 50; i++) {
-            organs.push({
-                name: faker.name.findName(),
-                phone: faker.phone.phoneNumber(),
-                email: faker.internet.email(),
-                description: faker.lorem.paragraph()
-            });
-        }
-        forkJoin(organs.map(x => this.organSrv.create(x))).subscribe(() => {
-            alert('数据生成完毕!');
-        });
-    }
-
 }

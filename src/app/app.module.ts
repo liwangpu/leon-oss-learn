@@ -16,6 +16,7 @@ import { LocalizationInterceptorService } from './services/localization-intercep
 import { GRIDCONFIG, QUERYPARAMTRANSFORMPOLICY } from 'cloud-grid';
 import { QueryParamTransformPolicyService } from './services/query-param-transform-policy.service';
 import { CubeApiQueryParamTransformPolicyService } from './services/cube-api-query-param-transform-policy.service';
+import { RouterRecorderService } from './services/router-recorder.service';
 
 /** Http interceptor providers in outside-in order */
 export const httpInterceptorProviders = [
@@ -57,6 +58,7 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
     ],
     providers: [
         AppConfigService,
+        RouterRecorderService,
         AuthenticationPolicyService,
         AuthorizationPolicyService,
         QueryParamTransformPolicyService,
