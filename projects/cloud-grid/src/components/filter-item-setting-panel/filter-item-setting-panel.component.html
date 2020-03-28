@@ -1,0 +1,32 @@
+<cloud-grid-modal-container title='筛选器设置' (close)='ref.close()'>
+    <div class="filter-item-setting-panel">
+        <form [formGroup]="editForm">
+            <mat-form-field floatLabel='always'>
+                <mat-label>字段</mat-label>
+                <mat-select formControlName='field'>
+                    <mat-option *ngFor="let f of fields" [value]="f.value">
+                        {{f.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field floatLabel='always'>
+                <mat-label>运算符</mat-label>
+                <mat-select formControlName='operator'>
+                    <mat-option *ngFor="let op of operators" [value]="op.value">
+                        {{op.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field floatLabel='always'>
+                <mat-label>值</mat-label>
+                <input matInput formControlName='value'>
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="footer" modal-footer>
+        <button mat-button class="normal" (click)='ref.close()'>取消</button>
+        <button mat-button class="normal" (click)='save()'>保存</button>
+    </div>
+</cloud-grid-modal-container>

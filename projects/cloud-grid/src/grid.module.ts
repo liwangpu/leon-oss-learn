@@ -21,9 +21,21 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { TableComponent } from './components/table/table.component';
+import { TableHeaderCellComponent } from './components/table-header-cell/table-header-cell.component';
+import { ColumnFilterPanelComponent } from './components/column-filter-panel/column-filter-panel.component';
+import { FilterItemBoxComponent } from './components/filter-item-box/filter-item-box.component';
+import { FilterItemSettingPanelComponent } from './components/filter-item-setting-panel/filter-item-setting-panel.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalContainerComponent } from './components/modal-container/modal-container.component';
+import { ColumnFilterViewEditPanelComponent } from './components/column-filter-view-edit-panel/column-filter-view-edit-panel.component';
+
 
 @NgModule({
-    declarations: [SortTableColumnDirective, ResizeTableColumnDirective, ColumResizerHandlerDirective, GridComponent, GridHeaderComponent, GridContentComponent, GridFooterComponent,],
+    declarations: [SortTableColumnDirective, ResizeTableColumnDirective, ColumResizerHandlerDirective, DynamicStyleWidthDirective, GridComponent, GridHeaderComponent, GridContentComponent, GridFooterComponent, TableComponent, TableHeaderCellComponent, ColumnFilterPanelComponent, FilterItemBoxComponent, FilterItemSettingPanelComponent, ModalContainerComponent, ColumnFilterViewEditPanelComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -31,6 +43,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         TranslateModule,
         DragDropModule,
         ScrollingModule,
+        MatSelectModule,
+        MatInputModule,
+        MatFormFieldModule,
         MatIconModule,
         MatSlideToggleModule,
         MatCheckboxModule,
@@ -38,6 +53,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         MatTooltipModule,
         MatButtonModule,
         MatSidenavModule,
+        MatDialogModule,
         MatMenuModule
     ],
     providers: [
@@ -47,6 +63,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         GridComponent
     ],
     entryComponents: [
+        FilterItemSettingPanelComponent,
+        ColumnFilterViewEditPanelComponent
     ]
 })
 export class GridModule { }

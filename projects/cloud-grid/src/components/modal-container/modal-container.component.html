@@ -1,0 +1,14 @@
+<div class="shared-modal-container">
+    <div class="container-header">
+        <span class="title">{{title}}</span>
+        <span class="close" (click)='close.next()' title="关闭">×</span>
+    </div>
+    <div class="container-content">
+        <div class="revise">
+            <ng-content></ng-content>
+        </div>
+    </div>
+    <div class="container-footer">
+        <ng-content select='[modal-footer]'></ng-content>
+    </div>
+</div>

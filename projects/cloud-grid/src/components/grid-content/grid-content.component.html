@@ -1,1 +1,17 @@
-<p>grid-content works!</p>
+<div class="grid-content">
+    <div class="reviser">
+        <div class="frozen-panel" #frozenPanel *ngIf='enableColumnFrozen'>
+            <cloud-grid-table tableType='frozen' [columns]='frozenColumns' [enableColumnFrozen]='enableColumnFrozen' [datas]='datas'
+                (afterResize)='afterColumnResize()' class="frozen">
+            </cloud-grid-table>
+        </div>
+        <div class="unfrozen-panel" #unfrozenPanel>
+            <cloud-grid-table [columns]='unfrozenColumns' [enableColumnFrozen]='enableColumnFrozen' [selectMode]='selectMode' [datas]='datas' (afterResize)='afterColumnResize()'>
+            </cloud-grid-table>
+        </div>
+        <div class="custom-panel">
+            <!-- <mirror-grid-column-filter-panel *ngIf='advancePanel==="filter"'></mirror-grid-column-filter-panel> -->
+            <cloud-grid-column-filter-panel  *ngIf='advancePanel==="filter"'></cloud-grid-column-filter-panel>
+        </div>
+    </div>
+</div>

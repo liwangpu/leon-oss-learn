@@ -1,5 +1,7 @@
-<div class="list-viewer">
-    <div class="header"></div>
+<div class="shared-list-viewer">
+    <div class="header">
+        <ng-content select='[listViewerHeader]'></ng-content>
+    </div>
     <div class="content">
         <cloud-grid></cloud-grid>
     </div>

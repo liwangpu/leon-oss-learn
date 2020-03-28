@@ -2,35 +2,33 @@
     <div class="left">
         <div class="view-wrapper" *ngIf='enableFilterView'>
             <p class="view-name">{{activeFilterViewName}}</p>
-            <i class="pi pi-caret-down" style="font-size: 1.2rem;"></i>
+            <mat-icon class="view-menu" [matMenuTriggerFor]="viewToggleMenu">keyboard_arrow_down</mat-icon>
         </div>
     </div>
     <div class="right">
         <div class="keyword-search">
-            <i class="search pi pi-search"></i>
-            <input type="text" placeholder="{{'tip.pleaseEnterAName'|translate}}" class="search">
-            <i class="clear pi pi-times"></i>
+            <input type="text" placeholder="{{'tip.pleaseEnterAName'|translate}}" class="search" [(ngModel)]='keyword'
+                (keyup.enter)='search()' #keywordInput>
+            <mat-icon class="clear" *ngIf='keyword' (click)='keyword="";search()'>clear</mat-icon>
         </div>
-        <button matTooltip="{{'button.cancelSearch'|translate}}">
+        <button matTooltip="{{'button.cancelSearch'|translate}}" [class.disabled]='!enableReturn'
+            [disabled]="!enableReturn" (click)="reset()">
             <mat-icon>reply</mat-icon>
         </button>
-        <button matTooltip="{{'button.refresh'|translate}}">
+        <button matTooltip="{{'button.refresh'|translate}}" (click)='refresh()'>
             <mat-icon>refresh</mat-icon>
         </button>
-        <button matTooltip="{{'button.filter'|translate}}">
+        <button matTooltip="{{'button.filter'|translate}}" (click)='filter()'>
             <mat-icon>filter_list</mat-icon>
         </button>
         <button matTooltip="{{'button.delete'|translate}}">
             <mat-icon>delete_forever</mat-icon>
         </button>
-        <!-- <button (click)='toggleDrawer()'>
-            <mat-icon>{{_drawerIconFlag}}</mat-icon>
-        </button> -->
-        <!-- <button pButton type="button" icon="pi pi-arrow-left" iconPos="left" [disabled]="!enableReturn"
-            (click)="reset()"></button>
-        <button pButton type="button" icon="pi pi-cog" iconPos="left"
-            (click)="advanceSettingMenuCt.toggle($event)"></button>
-        <button pButton type="button" icon="pi pi-refresh" iconPos="left" (click)='refresh()'></button>
-        <button pButton type="button" icon="pi pi-filter" iconPos="left" (click)='filter()'></button> -->
     </div>
 </div>
+
+<mat-menu class="view-toggle-menu" #viewToggleMenu="matMenu">
+    <ng-container *ngFor='let it of filterViews'>
+        <button mat-menu-item *ngIf='it.name!==activeFilterViewName' (click)='toggleView(it.id)'>{{it.name}}</button>
+    </ng-container>
+</mat-menu>

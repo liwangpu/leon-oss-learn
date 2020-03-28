@@ -1,12 +1,16 @@
-div.list-viewer {
+div.shared-list-viewer {
     display: flex;
     flex-flow: column;
     width: 100%;
     height: 100%;
     background-color: #f3f2f2;
     border-radius: 0.36rem;
+    padding: 0.36rem 0;
+    // background-color: orange;
 
-    div.header {}
+    div.header {
+        height: 50px;
+    }
 
     div.content {
         flex: 1 1 0;

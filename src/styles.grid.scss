@@ -1,0 +1,36 @@
+div.cloud-grid {}
+
+.advance-setting-menu {
+    min-width: 100px !important;
+    min-height: 0 !important;
+
+    .mat-menu-content:not(:empty) {
+        padding: .5rem 0;
+
+        button {
+            height: 2rem;
+            line-height: 2rem;
+            padding: 0 1rem;
+        }
+    }
+}
+
+.grid-paginator {
+    .mat-paginator-outer-container {
+        background-color: #F3F2F2;
+        .mat-paginator-container {
+            min-height: 0;
+            height: 40px;
+
+            .mat-paginator-page-size {
+                height: 40px;
+                .mat-paginator-page-size-select {
+                    margin: 0 4px;
+                }
+            }
+            .mat-paginator-range-actions{
+
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+<cloud-grid-modal-container title='筛选器设置' (close)='ref.close()'>
+    <form [formGroup]="editForm">
+        <mat-form-field floatLabel='always'>
+            <mat-label>视图名称</mat-label>
+            <input matInput formControlName='name'>
+        </mat-form-field>
+    </form>
+    <div class="footer" modal-footer>
+        <button mat-button class="normal" (click)='ref.close()'>取消</button>
+        <button mat-button class="normal" (click)='save()'>保存</button>
+    </div>
+</cloud-grid-modal-container>

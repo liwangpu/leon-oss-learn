@@ -1,0 +1,54 @@
+<table #table>
+    <thead>
+        <tr class="table-row">
+            <th class="table-cell select" *ngIf='tableType==="unfrozen" && selectMode'>
+                <span (click)='selectAllRows()'>
+                    <!-- <p-checkbox *ngIf='selectMode === "multiple"' binary="true" [(ngModel)]="allRowSelected">
+                    </p-checkbox> -->
+                </span>
+            </th>
+            <ng-container *ngFor='let col of columns;let l=last'>
+                <th class="table-cell" [dynamicStyleWidth]='col.width' #headerCell>
+                    <cloud-grid-table-header-cell [column]='col' [resizeTableColumn]='true' [resizeTableColumn]='true'
+                        [sortTableColumn]='col' (sort)='onSort($event)'>
+                    </cloud-grid-table-header-cell>
+                    <div class="advance-setting" (click)='currentEditColumn=col;' *ngIf='enableColumnFrozen'>
+                        <mat-icon [matMenuTriggerFor]="advanceSettingMenu" (click)='currentEditColumn=col'>keyboard_arrow_down</mat-icon>
+                    </div>
+                    <div class="resizer-handler" columResizerHandler (afterResize)='afterColumnResize()'>
+                    </div>
+                </th>
+            </ng-container>
+            <ng-container *ngIf='tableType==="unfrozen"&&enableRowOperation'>
+                <th class="table-cell operation">操作</th>
+            </ng-container>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class=" table-row" *ngFor='let rowData of datas' (click)='onRowClick(rowData)'>
+            <td class="table-cell" *ngIf='tableType==="unfrozen" && selectMode'>
+                <!-- <p-checkbox *ngIf='selectMode === "multiple"' [ngModel]="rowData.selected" binary="true"></p-checkbox>
+                <p-radioButton *ngIf='selectMode === "single"' name="select" [value]="rowData._id"
+                    [(ngModel)]="radioSelected"></p-radioButton> -->
+            </td>
+            <ng-container *ngFor='let col of columns'>
+                <td class="table-cell">
+                    <span [class.link-column]='col.link'
+                        (click)='onLinkFieldClick(col.field,rowData,col.link)'>{{rowData[col.field]}}</span>
+                </td>
+            </ng-container>
+            <ng-container *ngIf='tableType==="unfrozen"&&enableRowOperation'>
+                <td class="table-cell operation">
+                    <i class="pi pi-pencil button" (click)='editRow(rowData)'></i>
+                </td>
+            </ng-container>
+        </tr>
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+
+<mat-menu class="advance-setting-menu" #advanceSettingMenu="matMenu">
+    <button mat-menu-item *ngIf='tableType==="unfrozen"' (click)='freezenColumn()'>冻结</button>
+    <button mat-menu-item *ngIf='tableType==="frozen"' (click)='unfreezenColumn()'>解冻</button>
+</mat-menu>

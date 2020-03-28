@@ -1,1 +1,4 @@
-<p>grid-footer works!</p>
+<div class="grid-footer">
+    <mat-paginator class="grid-paginator" showFirstLastButtons='true' [length]="dataTotal" [pageIndex]='pageIndex' [pageSizeOptions]="rowsPerPageOptions" (page)="onPageChange($event)">
+    </mat-paginator>
+</div>

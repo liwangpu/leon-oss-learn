@@ -13,6 +13,9 @@ import { AppConfigService } from './services/app-config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
 import { LocalizationInterceptorService } from './services/localization-interceptor.service';
+import { GRIDCONFIG, QUERYPARAMTRANSFORMPOLICY } from 'cloud-grid';
+import { QueryParamTransformPolicyService } from './services/query-param-transform-policy.service';
+import { CubeApiQueryParamTransformPolicyService } from './services/cube-api-query-param-transform-policy.service';
 
 /** Http interceptor providers in outside-in order */
 export const httpInterceptorProviders = [
@@ -44,11 +47,11 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpClient]
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
             }
-          }),
+        }),
         CloudCoreModule.forRoot(),
         IdentityMsModule.forRoot()
     ],
@@ -56,6 +59,8 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
         AppConfigService,
         AuthenticationPolicyService,
         AuthorizationPolicyService,
+        QueryParamTransformPolicyService,
+        CubeApiQueryParamTransformPolicyService,
         httpInterceptorProviders,
         {
             provide: APP_INITIALIZER,
@@ -67,6 +72,16 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
             provide: APIGATEWAY,
             useFactory: appApiGatewayFn,
             deps: [AppConfigService]
+        },
+        {
+            provide: GRIDCONFIG,
+            useValue: {
+                rowsPerPageOptions: [20, 50, 100]
+            }
+        },
+        {
+            provide: QUERYPARAMTRANSFORMPOLICY,
+            useExisting: CubeApiQueryParamTransformPolicyService
         },
         { provide: AUTHENTICATIONPOLICY, useExisting: AuthenticationPolicyService },
         { provide: AUTHORIZATIONPOLICY, useExisting: AuthorizationPolicyService },

@@ -3,3 +3,4 @@ export * from './ms.module';
 export * from './services/token.service';
 // models
 export * from './models/i-identity-token';
+export * from './models/i-organization';

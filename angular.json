@@ -55,7 +55,8 @@
                             "src/styles.scss",
                             "src/styles.material.theme.scss",
                             "src/styles.material.scss",
-                            "src/styles.shared.scss"
+                            "src/styles.shared.scss",
+                            "src/styles.grid.scss"
                         ],
                         "scripts": []
                     },

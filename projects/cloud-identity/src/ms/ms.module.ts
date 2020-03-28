@@ -1,5 +1,6 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { TokenService } from './services/token.service';
+import { OrganizationService } from './services/organization.service';
 
 @NgModule()
 export class MsModule {
@@ -14,7 +15,8 @@ export class MsModule {
         return {
             ngModule: MsModule,
             providers: [
-                TokenService
+                TokenService,
+                OrganizationService
             ]
         };
     }
