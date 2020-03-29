@@ -62,6 +62,13 @@ export class IdentityListComponent extends DStore implements OnInit {
         throw new Error('Method not implemented.');
     }
 
+    public onDataDelete(datas: Array<IIdentity>): void {
+        forkJoin(datas.map(x => this.identitySrv.delete(x.id))).subscribe(() => {
+            console.log('数据删除完毕');
+            this.refresh();
+        });
+    }
+
     public onLinkFieldClick(field: string, data: any): void {
         throw new Error('Method not implemented.');
     }
@@ -83,7 +90,8 @@ export class IdentityListComponent extends DStore implements OnInit {
             });
         }
         forkJoin(organs.map(x => this.identitySrv.create(x))).subscribe(() => {
-            alert('数据生成完毕!');
+            console.log('数据生成完毕');
+            this.refresh();
         });
     }
 }

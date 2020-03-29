@@ -25,6 +25,7 @@ export class GridHeaderComponent implements OnInit {
     public keyword: string;
     public activeFilterViewName: string = '全部';
     public filterViews: Array<{ id: string, name: string }>;
+    private selectedDatas: Array<any>;
     public constructor(
         @Inject(GRIDCONFIG) private gridConfig: IGridConfig,
         public dialogService: MatDialog,
@@ -63,7 +64,13 @@ export class GridHeaderComponent implements OnInit {
             .pipe(map(x => x.data))
             .subscribe(enable => this.enableFilterView = enable);
 
-            
+        this.opsat.message
+            .pipe(filter(x => x.topic === GridTopicEnum.RowSelected))
+            .pipe(map(x => x.data))
+            .subscribe((selected: Array<any>) => {
+                this.selectedDatas = selected;
+                this.enableDelete = selected.length > 0;
+            });
     }
 
     public filter(): void {
@@ -137,5 +144,9 @@ export class GridHeaderComponent implements OnInit {
                 this.opsat.publish(GridTopicEnum.ColumnVisialSettingChange);
                 this.opsat.publish(GridTopicEnum.FilterViewCreateOrUpdate, view);
             });
+    }
+
+    public delete(): void {
+        this.opsat.publish(GridTopicEnum.RowOperating, { operation: 'delete', data: this.selectedDatas });
     }
 }

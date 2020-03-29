@@ -27,6 +27,10 @@ export class ListViewerComponent extends DStore implements OnInit {
             this.pageKey = UrlTool.getPath(location.href);
             this.filterViews = this.getTemporyViewInLocalStorage();
         }
+
+        this.dstore.registryRefreshCallBack(() => {
+            this.refresh();
+        });
     }
 
     public ngOnInit(): void {
@@ -67,7 +71,11 @@ export class ListViewerComponent extends DStore implements OnInit {
     }
 
     public onDataEdit(data: any): void {
-        throw new Error("Method not implemented.");
+        this.dstore.onDataEdit(data);
+    }
+
+    public onDataDelete(datas: Array<any>): void {
+        this.dstore.onDataDelete(datas);
     }
 
     public onLinkFieldClick(field: string, data: any): void {
@@ -75,7 +83,7 @@ export class ListViewerComponent extends DStore implements OnInit {
     }
 
     public onDataSelected(datas: any[]): void {
-        console.log('select', datas);
+        // console.log('select', datas);
     }
 
     private temporaryStoreViewToLocalStorage(): void {

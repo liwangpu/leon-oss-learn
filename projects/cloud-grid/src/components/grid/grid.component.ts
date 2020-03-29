@@ -91,6 +91,10 @@ export class GridComponent implements OnInit, AfterViewInit {
 
         });
 
+        this.dstore.registryRefreshCallBack(() => {
+            this.refreshQuery();
+        });
+
         // log整个表格通讯信息
         // this.opsat.message.subscribe(ms => console.log('message:', ms));
         // this.opsat.publish(GridTopicEnum.OpenAdvancePanel, GridAdvanceViewEnum.Filter);
@@ -248,6 +252,10 @@ export class GridComponent implements OnInit, AfterViewInit {
             .subscribe((res: { operation: string; data: any }) => {
                 if (res.operation === 'edit') {
                     this.dstore.onDataEdit(res.data);
+                } else if (res.operation === 'delete') {
+                    this.dstore.onDataDelete(res.data);
+                } else {
+
                 }
             });
         // setTimeout(() => {

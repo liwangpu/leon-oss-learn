@@ -80,6 +80,10 @@ export class OrganizationListComponent extends DStore implements OnInit {
         throw new Error('Method not implemented.');
     }
 
+    public onDataDelete(datas: Array<any>): void {
+    
+    }
+
     public onLinkFieldClick(field: string, data: any): void {
         throw new Error('Method not implemented.');
     }

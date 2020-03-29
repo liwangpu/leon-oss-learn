@@ -6,6 +6,7 @@ import { IQueryResult } from 'cloud-deed';
 
 export abstract class DStore {
     protected startupCallBack: (option?: any) => void;
+    protected refreshCallBack: Function;
     public abstract getColumns(): Observable<Array<ITableColumn>>;
     public abstract onQuery(queryParam?: {}): Observable<IQueryResult>;
     public abstract getFilterViews(): Observable<Array<IFilterView>>;
@@ -13,6 +14,7 @@ export abstract class DStore {
     public abstract onFilterViewUpdate(view: IFilterView): Observable<void>;
     public abstract getSelectOptions(reference: string): Observable<Array<ISelectOption>>;
     public abstract onDataEdit(data: any): void;
+    public abstract onDataDelete(datas: Array<any>): void;
     public abstract onLinkFieldClick(field: string, data: any): void;
     public abstract onDataSelected(datas: Array<any>): void;
     public startup(option?: any): void {
@@ -21,5 +23,13 @@ export abstract class DStore {
 
     public registryStartupCallBack(cb: (option?: any) => void): void {
         this.startupCallBack = cb;
+    }
+
+    public refresh(): void {
+        this.refreshCallBack();
+    }
+
+    public registryRefreshCallBack(cb: Function) {
+        this.refreshCallBack = cb;
     }
 }
