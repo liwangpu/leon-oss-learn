@@ -9,7 +9,19 @@ div.shared-list-viewer {
     // background-color: orange;
 
     div.header {
-        height: 50px;
+        height: 40px;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+
+        p.title {
+            margin: 0;
+            padding: .5rem 0 0;
+            font-size: 1.5rem;
+            color: #514f4d;
+        }
     }
 
     div.content {

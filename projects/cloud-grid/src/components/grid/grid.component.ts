@@ -114,56 +114,23 @@ export class GridComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
 
-        // 联合列变更数据和分页数据,进行初始数据的加工,这次加工主要是为了解决下拉框/引用 value=>text
-        const columnObs: Observable<any> = this.opsat.message
-            .pipe(filter(x => x.topic === GridTopicEnum.ColumnDefinition))
-            .pipe(map(x => x.data));
-
-        const valueTextDataProcessing: (arr: [Array<ITableColumn>, IQueryResult]) => Observable<any> = arr => {
-            const processing: (info: { [key: string]: Array<ISelectOption> }) => Observable<IQueryResult> = info => {
-                for (let idx: number = arr[1].items.length - 1; idx >= 0; idx--) {
-                    let it: any = arr[1].items[idx];
-                    // tslint:disable-next-line: forin
-                    for (let f in info) {
-                        let t: ISelectOption = info[f].filter(x => x.value === it[f])[0];
-                        it[`${f}_value`] = it[f];
-                        it[f] = t ? t.text : '';
+        this.opsat.message
+            .pipe(filter(x => x.topic === GridTopicEnum._ListData))
+            .pipe(map(x => x.data))
+            .pipe(map((res: IQueryResult) => {
+                if (res.items && res.items.length > 0) {
+                    let noStart = this.cache?.history?.pagination?.page ? (this.cache?.history?.pagination?.page - 1) * this.cache.history.pagination.limit : 0;
+                    for (let i = 0, len = res.items.length; i < len; i++) {
+                        noStart++;
+                        res.items[i]['no'] = noStart;
                     }
                 }
-                return of(arr[1]);
-            };
-
-            if (this.cache.fieldInfos) {
-                return of(this.cache.fieldInfos).pipe(switchMap(processing));
-            }
-
-            let selectFields: Array<ITableColumn> = arr[0].filter(x => x.fieldType === 'select');
-
-            if (selectFields.length === 0) {
-                return of(arr[1]);
-            }
-
-            return forkJoin(selectFields.map(x => this.dstore.getSelectOptions(x.reference ? x.reference : x.field))).pipe(map(res => {
-                let info: any = {};
-                // 缓存select field选值
-                for (let idx: number = res.length - 1; idx >= 0; idx--) {
-                    info[selectFields[idx].field] = res[idx];
-                }
-                this.cache.fieldInfos = info;
-                // console.log(2, info);
-                return info;
-            })).pipe(switchMap(processing));
-        };
-        const listDataObs: Observable<any> = this.opsat.message
-            .pipe(filter(x => x.topic === GridTopicEnum._ListData))
-            .pipe(map(x => x.data));
-
-        combineLatest(columnObs, listDataObs)
-            .pipe(switchMap(valueTextDataProcessing))
+                return res;
+            }))
             .subscribe(res => {
                 this.opsat.publish(GridTopicEnum.ListData, res);
-                // console.log('deal:', res);
             });
+
 
         this.opsat.message
             .pipe(filter(x => x.topic === GridTopicEnum.History))

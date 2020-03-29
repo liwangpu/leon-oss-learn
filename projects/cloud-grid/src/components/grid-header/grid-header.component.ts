@@ -19,6 +19,7 @@ import { ITableColumn } from '../../models/i-table-column';
 })
 export class GridHeaderComponent implements OnInit {
 
+    public enableDelete: boolean = false;
     public enableFilterView: boolean = false;
     public enableReturn: boolean = false;
     public keyword: string;
@@ -61,6 +62,8 @@ export class GridHeaderComponent implements OnInit {
             .pipe(filter(x => x.topic === GridTopicEnum.EnableFilterView))
             .pipe(map(x => x.data))
             .subscribe(enable => this.enableFilterView = enable);
+
+            
     }
 
     public filter(): void {

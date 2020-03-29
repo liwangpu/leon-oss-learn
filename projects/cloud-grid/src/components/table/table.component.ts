@@ -6,8 +6,9 @@ import { GridDataService } from '../../services/grid-data.service';
 import { GridTopicEnum } from '../../enums/grid-topic.enum';
 import { IFilterView } from '../../models/i-filter-view';
 import { ArrayTool } from '../../utils/array-tool';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, delay } from 'rxjs/operators';
 import { ISortEvent } from '../../models/i-sort-event';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
     selector: 'cloud-grid-table',
@@ -26,10 +27,11 @@ export class TableComponent implements OnInit {
     @ViewChildren('headerCell') public headerCells: QueryList<ElementRef>;
     @ViewChild('table', { static: false, read: ElementRef }) public table: ElementRef;
     public enableRowOperation: boolean;
-    public advanceColSettingMenu: Array<any>;
     public currentEditColumn: ITableColumn;
     public radioSelected: string;
     public allRowSelected: boolean = false;
+    public someRowSelected: boolean = false;
+    public enableNORow: boolean = false;
     public constructor(
         private renderer2: Renderer2,
         private opsat: GridOpsatService,
@@ -40,64 +42,12 @@ export class TableComponent implements OnInit {
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['datas']) {
             this.allRowSelected = false;
+            this.someRowSelected = false;
             this.radioSelected = null;
         }
     }
 
     public ngOnInit(): void {
-
-        this.advanceColSettingMenu = [
-            {
-                id: 'freezen-column',
-                label: '冻结此列',
-                command: () => {
-                    const cols: Array<ITableColumn> = this.cache.columns;
-                    for (let i: number = 0; i < cols.length; i++) {
-                        if (cols[i].field == this.currentEditColumn.field) {
-                            let it: ITableColumn = cols[i];
-                            it['frozen'] = true;
-                            this.opsat.publish(GridTopicEnum.FreezeColumn, it);
-                            break;
-                        }
-                    }
-
-                    let view: IFilterView = this.cache.activeFilterView;
-                    view.columns = cols;
-                    this.opsat.publish(GridTopicEnum.FilterViewCreateOrUpdate, view);
-                }
-            },
-            {
-                id: 'unfreezen-column',
-                label: '取消冻结',
-                command: () => {
-                    const cols: Array<ITableColumn> = this.cache.columns;
-                    for (let i: number = 0; i < cols.length; i++) {
-                        if (cols[i].field == this.currentEditColumn.field) {
-                            let it: ITableColumn = cols[i];
-                            it['frozen'] = false;
-                            this.opsat.publish(GridTopicEnum.UnFreezeColumn, it);
-                            break;
-                        }
-                    }
-
-                    let view: IFilterView = this.cache.activeFilterView;
-                    view.columns = cols;
-                    this.opsat.publish(GridTopicEnum.FilterViewCreateOrUpdate, view);
-                }
-            }
-        ];
-
-        ArrayTool.remove(this.advanceColSettingMenu, it => {
-            if (this.tableType === 'frozen' && it.id === 'freezen-column') {
-                return true;
-            }
-
-            if (this.tableType === 'unfrozen' && it.id === 'unfreezen-column') {
-                return true;
-            }
-            return false;
-        });
-
         // 订阅取消冻结或者隐藏表格列事件,取消表格所占宽度
         this.opsat.message
             .pipe(filter(x => x.topic === GridTopicEnum.UnFreezeColumn))
@@ -112,6 +62,7 @@ export class TableComponent implements OnInit {
 
         this.opsat.message
             .pipe(filter(x => x.topic === GridTopicEnum.ViewDefinition))
+            .pipe(delay(100))
             .subscribe(() => {
                 let cols: Array<ITableColumn> = this.cache.columns.filter(x => !x['invisibale']
                     && (this.tableType === 'unfrozen' ? !x['frozen'] : x['frozen']));
@@ -124,6 +75,18 @@ export class TableComponent implements OnInit {
                 } else {
                     this.renderer2.removeStyle(this.table.nativeElement, 'width');
                 }
+
+                // 冻结列判断,用于判断是否显示选择框和序号
+                const hasFrozenColumn = this.cache.columns.some(x => x['frozen']);
+                if (this.tableType === 'frozen') {
+                    this.enableNORow = hasFrozenColumn;
+                }
+
+                if (this.tableType === 'unfrozen') {
+                    this.enableNORow = !hasFrozenColumn;
+                }
+
+
             });
     }
 
@@ -170,23 +133,25 @@ export class TableComponent implements OnInit {
     }
 
     public onRowClick(data: any): void {
-        if (!this.selectMode) { return; }
-        this.radioSelected = data['_id'];
+        // if (!this.selectMode) { return; }
+        // this.radioSelected = data['_id'];
 
-        if (this.selectMode === 'single') {
-            this.opsat.publish(GridTopicEnum.RowSelected, [data]);
-        } else {
-            data['selected'] = !data['selected'];
-            this.allRowSelected = !this.datas.some(x => !x['selected']);
-            this.opsat.publish(GridTopicEnum.RowSelected, this.datas.filter(x => x['selected']));
-        }
+        // if (this.selectMode === 'single') {
+        //     this.opsat.publish(GridTopicEnum.RowSelected, [data]);
+        // } else {
+        //     data['selected'] = !data['selected'];
+        //     this.allRowSelected = !this.datas.some(x => !x['selected']);
+        //     this.opsat.publish(GridTopicEnum.RowSelected, this.datas.filter(x => x['selected']));
+        // }
         // console.log('row click', this.datas.filter(x => x['selected']));
     }
 
-    public selectAllRows(): void {
+    public selectAllRows(evt: MatCheckboxChange): void {
+        this.allRowSelected = evt.checked;
         for (let it of this.datas) {
             it['selected'] = this.allRowSelected;
         }
+        this.opsat.publish(GridTopicEnum.RowSelected, this.datas.filter(x => x['selected']));
     }
 
     public freezenColumn(): void {
@@ -219,6 +184,15 @@ export class TableComponent implements OnInit {
         let view: IFilterView = this.cache.activeFilterView;
         view.columns = cols;
         this.opsat.publish(GridTopicEnum.FilterViewCreateOrUpdate, view);
+    }
+
+    public selectChange(evt: MatCheckboxChange, data: any): void {
+        data['selected'] = evt.checked;
+        let hasSomeNotSelected = this.datas.some(x => !x['selected']);
+        let hasSomeSelected = this.datas.some(x => x['selected']);
+        this.allRowSelected = !hasSomeNotSelected;
+        this.someRowSelected = hasSomeNotSelected && hasSomeSelected;
+        this.opsat.publish(GridTopicEnum.RowSelected, this.datas.filter(x => x['selected']));
     }
 
     private clearSort(excludeField?: string): void {

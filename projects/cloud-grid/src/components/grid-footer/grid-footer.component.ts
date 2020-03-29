@@ -33,9 +33,11 @@ export class GridFooterComponent implements OnInit {
             .pipe(map(x => x.data))
             .pipe(delay(100))
             .subscribe((res: IQueryResult) => {
-                if (typeof res.count !== 'undefined') {
-                    this.dataTotal = res.count;
+                if (res.count === undefined || res.count === null) {
+                    return;
                 }
+
+                this.dataTotal = res.count;
             });
         this.opsat.message
             .pipe(filter(x => x.topic === GridTopicEnum.History))

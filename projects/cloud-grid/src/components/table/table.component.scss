@@ -25,6 +25,11 @@ table {
                 background-color: #FAFAF9;
                 overflow: hidden;
 
+                &.no {
+                    width: 64px;
+                    text-align: center;
+                }
+
                 &.operation {
                     width: 80px;
                 }
@@ -111,6 +116,11 @@ table {
                 padding: 0 .5rem;
                 background-color: #fff;
 
+                &.no {
+                    width: 64px;
+                    text-align: right;
+                }
+
                 &.operation {
                     &>.button {
                         &:hover {
@@ -118,6 +128,13 @@ table {
                             color: #007AD9;
                         }
                     }
+                }
+
+                &.select {
+                    width: 40px;
+                    text-align: center;
+                    background-color: white;
+                    z-index: 9;
                 }
 
                 span.link-column {

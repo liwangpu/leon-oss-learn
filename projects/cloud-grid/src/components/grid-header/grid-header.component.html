@@ -35,5 +35,5 @@
 
 <mat-menu class="view-toggle-menu" #advanceSettingMenu="matMenu">
     <button mat-menu-item (click)='columnVisualSetting()'>选择需要显示的列</button>
-    <button mat-menu-item>删除</button>
+    <button mat-menu-item [disabled]='!enableDelete'>删除</button>
 </mat-menu>

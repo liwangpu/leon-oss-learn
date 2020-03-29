@@ -31,7 +31,7 @@ export class ListViewerComponent extends DStore implements OnInit {
 
     public ngOnInit(): void {
         this.temporaryStoreViewToLocalStorage();
-        this.startup({ enableColumnFrozen: true, enableView: true, enableUrlHistory: true });
+        this.startup({ enableColumnFrozen: true, enableView: true, enableUrlHistory: true, selectMode: 'multiple' });
     }
 
     public getColumns(): Observable<Array<ITableColumn>> {
@@ -75,7 +75,7 @@ export class ListViewerComponent extends DStore implements OnInit {
     }
 
     public onDataSelected(datas: any[]): void {
-        throw new Error("Method not implemented.");
+        console.log('select', datas);
     }
 
     private temporaryStoreViewToLocalStorage(): void {

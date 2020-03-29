@@ -1,11 +1,14 @@
 <table #table>
     <thead>
         <tr class="table-row">
+            <th class="table-cell no" *ngIf='enableNORow'>
+
+            </th>
             <th class="table-cell select" *ngIf='tableType==="unfrozen" && selectMode'>
-                <span (click)='selectAllRows()'>
-                    <!-- <p-checkbox *ngIf='selectMode === "multiple"' binary="true" [(ngModel)]="allRowSelected">
+                <!-- <p-checkbox *ngIf='selectMode === "multiple"' binary="true" [(ngModel)]="allRowSelected">
                     </p-checkbox> -->
-                </span>
+                <mat-checkbox color='primary' *ngIf='selectMode === "multiple"' [checked]='allRowSelected'
+                    [indeterminate]='someRowSelected' (change)='selectAllRows($event)'></mat-checkbox>
             </th>
             <ng-container *ngFor='let col of columns;let l=last'>
                 <th class="table-cell" [dynamicStyleWidth]='col.width' #headerCell>
@@ -13,7 +16,8 @@
                         [sortTableColumn]='col' (sort)='onSort($event)'>
                     </cloud-grid-table-header-cell>
                     <div class="advance-setting" (click)='currentEditColumn=col;' *ngIf='enableColumnFrozen'>
-                        <mat-icon [matMenuTriggerFor]="advanceSettingMenu" (click)='currentEditColumn=col'>keyboard_arrow_down</mat-icon>
+                        <mat-icon [matMenuTriggerFor]="advanceSettingMenu" (click)='currentEditColumn=col'>
+                            keyboard_arrow_down</mat-icon>
                     </div>
                     <div class="resizer-handler" columResizerHandler (afterResize)='afterColumnResize()'>
                     </div>
@@ -25,11 +29,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr class=" table-row" *ngFor='let rowData of datas' (click)='onRowClick(rowData)'>
-            <td class="table-cell" *ngIf='tableType==="unfrozen" && selectMode'>
+        <tr class=" table-row" *ngFor='let rowData of datas'>
+            <td class="table-cell no" *ngIf='enableNORow'>
+                {{rowData.no}}
+            </td>
+            <td class="table-cell select" *ngIf='tableType==="unfrozen" && selectMode'>
                 <!-- <p-checkbox *ngIf='selectMode === "multiple"' [ngModel]="rowData.selected" binary="true"></p-checkbox>
                 <p-radioButton *ngIf='selectMode === "single"' name="select" [value]="rowData._id"
                     [(ngModel)]="radioSelected"></p-radioButton> -->
+                <mat-checkbox color='primary' *ngIf='selectMode === "multiple"' [checked]='rowData.selected'
+                    (change)='selectChange($event,rowData)'></mat-checkbox>
             </td>
             <ng-container *ngFor='let col of columns'>
                 <td class="table-cell">

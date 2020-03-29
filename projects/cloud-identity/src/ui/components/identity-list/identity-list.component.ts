@@ -1,8 +1,10 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { DStore, ITableColumn } from 'cloud-shared';
 import { IdentityService } from '../../../ms/services/identity.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { IQueryResult } from 'cloud-deed';
+import * as faker from 'faker';
+import { IIdentity } from '../../../ms/models/i-identity';
 
 @Component({
     selector: 'cloud-identity-identity-list',
@@ -35,6 +37,11 @@ export class IdentityListComponent extends DStore implements OnInit {
                 sort: true
             },
             {
+                name: '用户名',
+                field: 'username',
+                sort: true
+            },
+            {
                 name: '电话',
                 field: 'phone',
                 sort: true
@@ -48,25 +55,6 @@ export class IdentityListComponent extends DStore implements OnInit {
     }
 
     public onQuery(queryParam?: {}): Observable<IQueryResult<any>> {
-        // console.log('q',queryParam);
-        let keyword: string = queryParam['keyword'] && queryParam['keyword'] !== '' ? queryParam['keyword'] : undefined;
-        // 关键词搜索列设置
-        if (keyword) {
-            queryParam['filter'] = queryParam['filter'] ? queryParam['filter'] : {};
-            let orFilters: Array<any> = [];
-            // for (let field of this.keywordSearchColumns) {
-            // tslint:disable-next-line: no-shadowed-variable
-            let filter: any = {};
-            filter['name'] = { $regex: keyword };
-            orFilters.push(filter);
-            // }
-            queryParam['filter']['$or'] = orFilters;
-        }
-
-        if (keyword) {
-            // tslint:disable-next-line: no-dynamic-delete
-            delete queryParam['keyword'];
-        }
         return this.identitySrv.query(queryParam);
     }
 
@@ -80,5 +68,22 @@ export class IdentityListComponent extends DStore implements OnInit {
 
     public onDataSelected(datas: Array<any>): void {
         throw new Error('Method not implemented.');
+    }
+
+    public addFackerData(): void {
+        let organs: Array<IIdentity> = [];
+        for (let i = 0; i < 50; i++) {
+            const name: string = faker.name.findName();
+            organs.push({
+                name: name,
+                phone: faker.phone.phoneNumber(),
+                email: faker.internet.email(),
+                password: '123456',
+                username: name.replace('', '_')
+            });
+        }
+        forkJoin(organs.map(x => this.identitySrv.create(x))).subscribe(() => {
+            alert('数据生成完毕!');
+        });
     }
 }
