@@ -49,11 +49,9 @@ export class GridFooterComponent implements OnInit {
     }
 
     public onPageChange(evt: PageEvent): void {
-        // this.paginatorFirst = evt.first;
         this.cache.history.pagination.page = evt.pageIndex + 1;
         this.cache.history.pagination.limit = evt.pageSize;
         this.opsat.publish(GridTopicEnum._HistoryChange, this.cache.history);
-        // console.log('page size', evt);
     }
 
 }

@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { IAuthenticationPolicy } from 'cloud-deed';
+import { Injectable, Inject } from '@angular/core';
+import { IAuthenticationPolicy, COOKIESTORAGE, ICookieStorage } from 'cloud-deed';
 import { Router } from '@angular/router';
-import { LocalStorageService } from 'cloud-core';
 
 @Injectable()
 export class AuthenticationPolicyService implements IAuthenticationPolicy {
 
     public constructor(
+        @Inject(COOKIESTORAGE) private cookieStorageSrv: ICookieStorage,
         private router: Router,
-        private localStorageSrv: LocalStorageService
     ) {
 
     }
 
     public authenticate(): Promise<boolean> {
-        let hasToken = this.localStorageSrv.getItem('token');
-        // return Promise.resolve(hasToken ? true : false);
-        return Promise.resolve(true);
+        const token: string = this.cookieStorageSrv.getItem('token');
+        return Promise.resolve(token ? true : false);
+        // return Promise.resolve(true);
     }
 
     public unAuthenticatedRoutingHop(): void {

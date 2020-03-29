@@ -4,23 +4,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IQueryResult } from 'cloud-deed';
 import { map } from 'rxjs/operators';
-
+import * as queryString from 'query-string';
 @Injectable()
 export class IdentityService {
 
-    private uri: string = `${environment.APIServer}/data/identity`;
+    private uri: string = `http://localhost:9871/ids/identity`;
     public constructor(private httpClient: HttpClient) { }
 
     public query<T = any>(queryParam?: object): Observable<IQueryResult<T>> {
         queryParam = queryParam ? queryParam : {};
-        let pagingQuery: string = `size=${queryParam['size'] ? queryParam['size'] : 20}&index=${queryParam['index'] ? queryParam['index'] : 1}`;
-
-        return this.httpClient.post<IQueryResult>(`${this.uri}/query?${pagingQuery}`, queryParam)
-            .pipe(map(res => {
-                res['count'] = res['total'];
-                res.items = res.items ? res.items : [];
-                return res;
-            }));
+        return this.httpClient.get<IQueryResult>(`${this.uri}?${queryString.stringify(queryParam)}`);
     }
 
     public create<T = any>(entity: T): Observable<T> {

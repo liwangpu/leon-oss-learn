@@ -2,6 +2,10 @@ import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { AuthorizationGuard } from './guards/authorization.guard';
 import { LocalStorageService } from './services/local-storage.service';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { ErrorInterceptorService } from './interceptors/error-interceptor.service';
+import { AuthenticationInterceptorMiddlewareService } from './middlewares/authentication-interceptor-middleware.service';
+import { CookieStorageService } from './services/cookie-storage.service';
 
 
 @NgModule()
@@ -19,7 +23,12 @@ export class CoreModule {
             providers: [
                 AuthenticationGuard,
                 AuthorizationGuard,
-                LocalStorageService
+                LocalStorageService,
+                CookieStorageService,
+                LocalStorageService,
+                AuthInterceptorService,
+                ErrorInterceptorService,
+                AuthenticationInterceptorMiddlewareService,
             ]
         };
     }

@@ -4,10 +4,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
-import { CoreModule as CloudCoreModule } from 'cloud-core';
+import { CoreModule as CloudCoreModule, AuthInterceptorService, ErrorInterceptorService, MockAuthenticationInterceptorMiddlewareService, AuthenticationInterceptorMiddlewareService, MockErrorInterceptorMiddlewareService, CookieStorageService, LocalStorageService } from 'cloud-core';
 import { AuthenticationPolicyService } from './services/authentication-policy.service';
 import { AuthorizationPolicyService } from './services/authorization-policy.service';
-import { AUTHENTICATIONPOLICY, AUTHORIZATIONPOLICY, APIGATEWAY } from 'cloud-deed';
+import { AUTHENTICATIONPOLICY, AUTHORIZATIONPOLICY, APIGATEWAY, COOKIESTORAGE, LOCALSTORAGE } from 'cloud-deed';
 import { MsModule as IdentityMsModule } from 'cloud-identity';
 import { AppConfigService } from './services/app-config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -17,12 +17,13 @@ import { GRIDCONFIG, QUERYPARAMTRANSFORMPOLICY } from 'cloud-grid';
 import { QueryParamTransformPolicyService } from './services/query-param-transform-policy.service';
 import { CubeApiQueryParamTransformPolicyService } from './services/cube-api-query-param-transform-policy.service';
 import { RouterRecorderService } from './services/router-recorder.service';
+import { ErrorInterceptorMiddlewareService } from './services/error-interceptor-middleware.service';
 
 /** Http interceptor providers in outside-in order */
 export const httpInterceptorProviders = [
-    { provide: HTTP_INTERCEPTORS, useClass: LocalizationInterceptorService, multi: true }
-    // , { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
-    // , { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LocalizationInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
 ];
 
 // AoT requires an exported function for factories
@@ -61,6 +62,7 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
         RouterRecorderService,
         AuthenticationPolicyService,
         AuthorizationPolicyService,
+        ErrorInterceptorMiddlewareService,
         QueryParamTransformPolicyService,
         CubeApiQueryParamTransformPolicyService,
         httpInterceptorProviders,
@@ -83,8 +85,12 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
         },
         {
             provide: QUERYPARAMTRANSFORMPOLICY,
-            useExisting: CubeApiQueryParamTransformPolicyService
+            useExisting: QueryParamTransformPolicyService
         },
+        { provide: COOKIESTORAGE, useExisting: CookieStorageService },
+        { provide: LOCALSTORAGE, useExisting: LocalStorageService },
+        { provide: MockAuthenticationInterceptorMiddlewareService, useExisting: AuthenticationInterceptorMiddlewareService },
+        { provide: MockErrorInterceptorMiddlewareService, useExisting: ErrorInterceptorMiddlewareService },
         { provide: AUTHENTICATIONPOLICY, useExisting: AuthenticationPolicyService },
         { provide: AUTHORIZATIONPOLICY, useExisting: AuthorizationPolicyService },
     ],
