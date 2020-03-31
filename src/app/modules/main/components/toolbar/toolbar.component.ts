@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LauncherComponent } from '../launcher/launcher.component';
+import { COOKIESTORAGE, ICookieStorage, LOGOUTPOLICY, ILogoutPolicy } from 'cloud-deed';
 
 @Component({
     selector: 'main-toolbar',
@@ -11,6 +12,7 @@ export class ToolbarComponent implements OnInit {
 
     public accountName = "User";
     public constructor(
+        @Inject(LOGOUTPOLICY) private logoutPolicy: ILogoutPolicy,
         protected dialogSrv: MatDialog
     ) { }
 
@@ -22,7 +24,7 @@ export class ToolbarComponent implements OnInit {
     }
 
     public logout(): void {
-
+        this.logoutPolicy.logout();
     }
 
 }

@@ -76,7 +76,7 @@ export class OrganizationListComponent extends DStore implements OnInit {
         return this.organSrv.query(queryParam);
     }
 
-    public onDataEdit(data: any): void {
+    public onDataEdit(data?: any): void {
         throw new Error('Method not implemented.');
     }
 

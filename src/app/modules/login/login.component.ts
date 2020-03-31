@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         private acr: ActivatedRoute
     ) {
         this.loginForm = this.formBuilder.group({
-            username: ['leon', [Validators.required]],
+            username: ['admin', [Validators.required]],
             password: ['123456', [Validators.required]],
             keepAlive: [false]
         });

@@ -5,6 +5,7 @@ import { Observable, of, forkJoin } from 'rxjs';
 import { IQueryResult } from 'cloud-deed';
 import * as faker from 'faker';
 import { IIdentity } from '../../../ms/models/i-identity';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'cloud-identity-identity-list',
@@ -21,7 +22,9 @@ export class IdentityListComponent extends DStore implements OnInit {
 
 
     public constructor(
-        private identitySrv: IdentityService
+        private identitySrv: IdentityService,
+        private router: Router,
+        private acr: ActivatedRoute
     ) {
         super();
     }
@@ -58,8 +61,13 @@ export class IdentityListComponent extends DStore implements OnInit {
         return this.identitySrv.query(queryParam);
     }
 
-    public onDataEdit(data: any): void {
-        throw new Error('Method not implemented.');
+    public onDataEdit(data?: any): void {
+        if (!data) {
+            this.router.navigate(['./edit'], { relativeTo: this.acr });
+            return;
+        }
+
+        this.router.navigate(['./edit', data.id], { relativeTo: this.acr });
     }
 
     public onDataDelete(datas: Array<IIdentity>): void {

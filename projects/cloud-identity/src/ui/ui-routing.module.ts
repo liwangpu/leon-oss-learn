@@ -3,19 +3,28 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProfileSettingComponent } from './components/profile-setting/profile-setting.component';
 import { OrganizationListComponent } from './components/organization-list/organization-list.component';
 import { IdentityListComponent } from './components/identity-list/identity-list.component';
+import { IdentityEditComponent } from './components/identity-edit/identity-edit.component';
 
 
 const routes: Routes = [
     {
-        path: 'profile-setting',
+        path: 'profile/setting',
         component: ProfileSettingComponent
     },
     {
-        path: 'identity-list',
+        path: 'identity',
         component: IdentityListComponent
     },
     {
-        path: 'organization-list',
+        path: 'identity/edit',
+        component: IdentityEditComponent
+    },
+    {
+        path: 'identity/edit/:id',
+        component: IdentityEditComponent
+    },
+    {
+        path: 'organization',
         component: OrganizationListComponent
     }
 ];

@@ -1,0 +1,25 @@
+<div class="shared-detail-viewer">
+    <div class="header">
+        <div class="icon" *ngIf='icon'>
+            <img [src]="icon">
+        </div>
+        <p class="title">{{title}}</p>
+        <div class="fill"></div>
+        <div class="common-group-button">
+            <ng-content select='[header-button]'></ng-content>
+            <button (click)='goBack()'>{{"button.goBack"|translate}}</button>
+        </div>
+    </div>
+    <div class="top-content">
+        <ng-content select='[top-content]'></ng-content>
+    </div>
+    <div class="bottom-content">
+        <div class="left-content">
+            <ng-content select='[left-content]'></ng-content>
+        </div>
+        <div class="right-content">
+            <ng-content select='[right-content]'></ng-content>
+        </div>
+    </div>
+
+</div>

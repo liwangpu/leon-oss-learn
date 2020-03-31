@@ -1,0 +1,43 @@
+div.common-group-button {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    button {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        padding: 0.4rem 1rem;
+        border-top: 1px solid #d0d0d0;
+        border-bottom: 1px solid #d0d0d0;
+        border-left: 1px solid #d0d0d0;
+        background-color: #ffffff;
+        color: rgba(27, 82, 151, 1);
+        font-size: 0.9rem;
+
+        &:first-of-type {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        &:last-of-type {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-right: 1px solid #d0d0d0;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: #f4f6f9;
+        }
+    }
+}
+
+div.common-list-viewer-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.8rem 0 0;
+
+
+}

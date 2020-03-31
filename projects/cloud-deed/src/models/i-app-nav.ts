@@ -8,8 +8,8 @@ export interface IAppNav {
 
 export function GetAppNavs(): Array<IAppNav> {
     return [
-        { name: 'navigation.organization', url: '/app/ids/organization-list', icon: "device_hub", iconType: 'mat-icon', recentnav: true }
-        , { name: 'navigation.account', url: '/app/ids/identity-list', icon: "perm_identity", recentnav: true }
+        { name: 'navigation.organization', url: '/app/ids/organization', icon: "device_hub", iconType: 'mat-icon', recentnav: true }
+        , { name: 'navigation.account', url: '/app/ids/identity', icon: "perm_identity", recentnav: true }
         // , { name: 'navigation.systemRole', url: '/app/basic/role', icon: "supervisor_account", recentnav: true }
         // , { name: 'navigation.customRole', url: '/app/basic/custom-role', icon: "supervisor_account", recentnav: true }
         // , { name: 'navigation.accessPoint', url: '/app/basic/access-point', icon: "lock", recentnav: true }
@@ -33,7 +33,7 @@ export function GetMapNav(url: string, classifyDetailToListNav = true): IAppNav 
     if (!url) return;
     let nav = GetAppNavs().filter(x => x.url == url)[0];
     if (!nav && classifyDetailToListNav) {
-        let idx = url.indexOf('/detail');
+        let idx = url.indexOf('/edit');
         let main = url.slice(0, idx);
         return GetAppNavs().filter(x => x.url == main)[0];
     }//if

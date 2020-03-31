@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { CoreModule as CloudCoreModule, AuthInterceptorService, ErrorInterceptorService, MockAuthenticationInterceptorMiddlewareService, AuthenticationInterceptorMiddlewareService, MockErrorInterceptorMiddlewareService, CookieStorageService, LocalStorageService } from 'cloud-core';
 import { AuthenticationPolicyService } from './services/authentication-policy.service';
 import { AuthorizationPolicyService } from './services/authorization-policy.service';
-import { AUTHENTICATIONPOLICY, AUTHORIZATIONPOLICY, APIGATEWAY, COOKIESTORAGE, LOCALSTORAGE } from 'cloud-deed';
+import { AUTHENTICATIONPOLICY, AUTHORIZATIONPOLICY, APIGATEWAY, COOKIESTORAGE, LOCALSTORAGE, LOGOUTPOLICY } from 'cloud-deed';
 import { MsModule as IdentityMsModule } from 'cloud-identity';
 import { AppConfigService } from './services/app-config.service';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -18,6 +18,7 @@ import { QueryParamTransformPolicyService } from './services/query-param-transfo
 import { CubeApiQueryParamTransformPolicyService } from './services/cube-api-query-param-transform-policy.service';
 import { RouterRecorderService } from './services/router-recorder.service';
 import { ErrorInterceptorMiddlewareService } from './services/error-interceptor-middleware.service';
+import { LogoutPolicyService } from './services/logout-policy.service';
 
 /** Http interceptor providers in outside-in order */
 export const httpInterceptorProviders = [
@@ -65,6 +66,7 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
         ErrorInterceptorMiddlewareService,
         QueryParamTransformPolicyService,
         CubeApiQueryParamTransformPolicyService,
+        LogoutPolicyService,
         httpInterceptorProviders,
         {
             provide: APP_INITIALIZER,
@@ -89,6 +91,7 @@ const appApiGatewayFn: Function = (configSrv: AppConfigService) => configSrv.app
         },
         { provide: COOKIESTORAGE, useExisting: CookieStorageService },
         { provide: LOCALSTORAGE, useExisting: LocalStorageService },
+        { provide: LOGOUTPOLICY, useExisting: LogoutPolicyService },
         { provide: MockAuthenticationInterceptorMiddlewareService, useExisting: AuthenticationInterceptorMiddlewareService },
         { provide: MockErrorInterceptorMiddlewareService, useExisting: ErrorInterceptorMiddlewareService },
         { provide: AUTHENTICATIONPOLICY, useExisting: AuthenticationPolicyService },

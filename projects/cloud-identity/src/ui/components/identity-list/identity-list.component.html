@@ -1,5 +1,12 @@
 <cloud-shared-list-viewer>
     <div listViewerHeader>
-        <button (click)='addFackerData()'>批量添加测试数据</button>
+        <div class="common-list-viewer-header">
+            <div class="common-group-button">
+                <button (click)='onDataEdit()'>{{'button.new'|translate}}</button>
+                <!-- <button (click)='addFackerData()'>批量添加测试数据</button>  -->
+                <!-- <button>{{'button.import'|translate}}</button>
+                <button>{{'button.export'|translate}}</button> -->
+            </div>
+        </div>
     </div>
 </cloud-shared-list-viewer>
